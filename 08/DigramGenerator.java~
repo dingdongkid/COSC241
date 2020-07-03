@@ -1,0 +1,93 @@
+package week08;
+
+import java.util.*;
+import java.io.*;
+
+/**
+ *  Word generator based on letter arrangement frequency.
+ * @author Nicholas Dong
+ */
+public class DigramGenerator implements WordGenerator {
+
+    /** Random source used to generate words. */
+    private Random random;
+
+    /** String of first letters. */
+    private String first;
+
+    /** Array of continuation strings. */
+    private String[] w;
+
+    /** Length of alphabet. */
+    private final int alphabetLength = 26;
+
+    /**
+     * Constructs string of first-letter frequencies.
+     * Constructs array of letters following first letters.
+     * Constructs a digram-based random word generator which uses the given
+     * random source.
+     *
+     * @param r a source of randomness used when generating words.
+     */
+    public DigramGenerator(Random r) {
+        random = r;
+
+        try{
+            Scanner scanFirst = new Scanner(new File("first-letters.txt"));
+            first = scanFirst.nextLine();
+            Scanner scanNext = new Scanner(new File("continuations.txt"));
+            w = new String[alphabetLength];
+            for(int i = 0; i < w.length; i++){
+                w[i] = scanNext.nextLine();
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("File not found. Check file name and location.");
+            System.exit(1);
+        }
+            
+    }
+    
+    
+    /**
+     * Return a random word of length n.
+     * @param n the required length of the word.
+     * @return a random word of lenth n.
+     */         
+    public String nextWord(int n) {
+        StringBuilder result = new StringBuilder();
+        char f = chooseFirst(first);
+        result.append(f);
+        char prev = f;
+        for(int i = 1; i < n; i++){
+            char curr = chooseCont(prev);
+            result.append(curr);
+            prev = curr;
+        }
+        return "";
+    }
+
+    /**
+     * Chooses a letter to insert into the random word, sorted by frequency.
+     * @param c the previous character.
+     * @return a following character.
+     */
+    public char chooseCont(char c){
+        int prevChar = (int) c;
+        String choices = w[prevChar];
+        int r = random.nextInt(w[prevChar].length());
+        char next = choices.charAt(r);
+        System.out.print("gotcha");
+        return next;
+    }
+    
+/**
+     * Chooses a letter to insert into the random word, sorted by frequency.
+     * @param f the full string.
+     * @return a first character.
+     */
+    public char chooseFirst(String f){
+        int index = random.nextInt(first.length());
+        System.out.print("www");
+        return first.charAt(index);
+    }
+}
