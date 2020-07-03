@@ -1,0 +1,125 @@
+/* File: Coins.java - March 2018 */
+package week02;
+import java.util.Random;
+
+/** Program to flip coins and count them.
+ *  @author Nicholas Dong
+ */
+
+public class Coins{
+
+    /**
+     * Heads = true.
+     */
+    public static final boolean HEADS = true;
+
+    /**
+     * Tails = false.
+     */
+    public static final boolean TAILS = false;
+
+    /**
+     * Array of booleans representing coin flips.
+     */
+    private boolean[] coins;
+    /** Runs methods for coins.
+        @param args data that the program will use.
+    */
+    public static void main (String[] args){
+        boolean[] b = {HEADS, TAILS, HEADS, HEADS, TAILS};
+        Coins c = new Coins(b);
+        Coins d = new Coins("HHHHHH");
+        System.out.println(c.countHeads());
+        System.out.println(c.countRuns());
+        System.out.println(c.toString());
+        System.out.println("");
+        System.out.println(d.countHeads());
+        System.out.println(d.countRuns());
+        System.out.println(d.toString());
+    }
+    
+    /**
+     * Constructor for coins object with provided boolean.
+     * @param coins boolean set.
+     */
+    public Coins(boolean[] coins){
+        this.coins = coins;
+    }
+    
+    /**
+     *  Constructor for coins object with provided string.
+     *  @param c String of H and T characters
+     */
+    public Coins(String c){
+        this.coins = new boolean[c.length()];
+        for(int i = 0; i < c.length(); i++){
+            if(c.charAt(i) == 'H'){
+                coins[i] = HEADS;
+            } else {
+                coins[i] = TAILS;
+            }
+        }
+    }
+    
+    /**
+     * Constructor for coins object with provided length.
+     *  @param length of boolean array
+     */
+    public Coins(int length){
+        this.coins = new boolean[length];
+        Random r = new Random();
+        for(int i = 0; i < length; i++){
+            int rand = r.nextInt(2);
+            if(rand == 1){
+                coins[i] = HEADS;
+            } else {
+                coins[i] = TAILS;
+            }
+        }
+    }
+        
+    /** 
+     * Counts number of true cases.
+     * @return number of HEADS
+     */
+    public int countHeads(){
+        int headCount = 0;
+        for (boolean coin: coins){
+            if(coin){
+                headCount++;
+            }
+        }
+        return headCount;
+    }
+    
+    /**
+     * Returns array contents as a string.
+     * @return String text array contents
+     */
+    public String toString(){
+        String text = "";
+        for (boolean coin: coins){
+            if(coin){
+                text += "H";
+            } else {
+                text += "T";
+            }
+        }
+        return text;
+    }
+
+    /**
+     * Finds number of consecutive result runs.
+     * @return number of runs
+     */
+    public int countRuns(){
+        int count = 1;
+        for (int i = 1; i < coins.length; i++){
+            if(coins[i] != coins[i-1]){
+                count++;
+            }
+        }
+        return count;
+    }     
+
+}
