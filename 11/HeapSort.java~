@@ -1,0 +1,79 @@
+package week11;
+
+/**
+ *  Heap sort implementation which is able to be observed through its
+ *  Sorter superclass.
+ *
+ * @author Iain Hewson
+ */
+public class HeapSort extends Sorter{
+
+
+    /**
+     *  Create a new HeapSort sorter with the given integers to sort.
+     * 
+     * @param nums the integers to sort.
+     */
+    public HeapSort(Integer[] nums) {
+        super(nums); // pass nums[] to the superclass Sort
+    }
+
+    /**
+     * Sort the integers (which are stored in the parent Sorter class). 
+     */
+    public void sortNums() {
+        // int i, j, comparisons, and nums[] are all protected datafields in
+        // the superclass Sort so we can use them without declaring them
+        comparisons = 0;
+        heapify();
+        for(int n = nums.length-1; n > 0; n--) {
+            swap (0, n);
+            siftDown(0, n);
+        }
+    }
+
+    /**
+     * Swaps two values.
+     * @param a first value
+     * @param b second value
+     */
+    public void swap(int a, int b) {
+        int temp = nums[b];
+        nums[b] = nums[a];
+        nums[a] = temp;
+    }
+
+    /**
+     * Arranges array into a heap.
+     */
+    public void heapify() {
+        for (i = (nums.length-1)/2; i >= 0; i--) {
+            siftDown(i, nums.length);
+        }
+    }
+
+    /**
+     * Sifts root value to correct place.
+     * @param s sifted value
+     * @param high largest value
+     */
+    public void siftDown(int s, int high) {
+        int l = 2*s+1;
+        int r = 2*s+2;
+        j = high;
+        comparisons++;
+        if (r >= high || nums[r] < nums[l]) {
+            if (l < high && (nums[s] < nums[l])) {
+                swap(s, l);
+                update();
+                siftDown(l, high);
+            }
+        } else {
+            if (nums[s] < nums[r]) {
+                swap(s, r);
+                update();
+                siftDown(r, high);
+            }
+        }
+    }     
+}

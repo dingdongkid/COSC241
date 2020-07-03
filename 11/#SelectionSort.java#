@@ -1,0 +1,74 @@
+package week11;
+
+/**
+ * Selection sort implementation which is able to be observed through its
+ * Sorter superclass.
+ *
+ * @author Nicholas Dong
+ */
+public class SelectionSort extends Sorter {
+
+    /**
+     * Create a new SelectionSort sorter with the given integers to sort.
+     * @param nums the integers to sort.
+     */
+    public SelectionSort(Integer[] nums) {
+        super(nums); // pass nums[] to the superclass Sort
+    }
+
+    /**
+     * Sort the integers (which are stored in the parent Sorter class).
+     */
+    public void sortNums() {
+        comparisons = 0;
+        sortNums(0, nums.length);
+    }
+
+    /**
+     * Sort the integers recursively.
+     * @param left first position.
+     * @param right last position.
+     */
+    public void sortNums(int left, int right) {
+        if (left >= right){
+            return;
+        }
+        swap(left, minPosition(left, right));
+        i = left;
+          sortNums(left+1, right);
+    }
+
+    /**
+     * Find the lowest value.
+     * @param left first position.
+     * @param right last position.
+     * @return position of lowest value
+     */
+    public int minPosition(int left, int right) {
+        int result = left;
+        int minValue = nums[left];
+        for(j = left+1; j < right; j++) {
+            if(nums[j] < minValue) {
+                result = j;
+                minValue = nums[j];
+            }
+            comparisons++;
+            update();
+        }
+        return result;
+    }
+
+    /**
+     * Swaps two values.
+     * @param a first value.
+     * @param b second value.
+     */
+    public void swap(int a, int b) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+
+    
+}
+        
